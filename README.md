@@ -123,8 +123,6 @@ As seguintes tecnologias foram definidas para a construção do projeto:
 ### **Banco de Dados**
 
 * **[PostgreSQL](https://www.postgresql.org/)**
-* **[Neon](https://neon.tech/)**
-* **[Supabase](https://supabase.com/)**
 
 ### **Infraestrutura**
 
