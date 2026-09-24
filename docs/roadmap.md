@@ -9,44 +9,42 @@ Desenvolvimento em **4 fases** ao longo de **8 semanas**, do MVP ao produto comp
 **Objetivo:** Estrutura base, autenticação e CRUD principal.
 
 ### ⚙️ Backend
-- [ ] Configurar projeto Node.js + Express + TypeScript
-- [ ] Configurar PostgreSQL (Neon) e criar schema
-- [ ] Implementar autenticação JWT (register/login)
-- [ ] CRUD de usuários (clientes e barbeiros)
-- [ ] CRUD de serviços
-- [ ] Middleware de autenticação e autorização
+- [x] Configurar projeto Node.js + Express
+- [x] Configurar PostgreSQL e criar schema
+- [x] Implementar autenticação JWT (register/login)
+- [x] CRUD de usuários (clientes e barbeiros)
+- [x] CRUD de serviços
+- [x] Middleware de autenticação e autorização
 
 ### 💻 Frontend
-- [ ] Configurar React + Vite + Tailwind CSS
-- [ ] Sistema de rotas (React Router)
-- [ ] Páginas de login e registro
-- [ ] Layout base (header, sidebar, footer)
-- [ ] Dark mode funcional
+- [x] Configurar React + Vite + Tailwind CSS
+- [x] Sistema de rotas (React Router)
+- [x] Páginas de login e registro
+- [x] Layout base (header, sidebar, footer)
+- [x] Dark mode funcional
 
 ### 🧪 Testes
-- [ ] Testes unitários de autenticação
-- [ ] Testes de integração de CRUD
+- [x] Testes unitários de autenticação
+- [x] Testes manuais de integração
 
 **Entregável:** Sistema de login funcional com CRUD básico.
 
 ---
 
-## 📅 Fase 2: Agendamentos (Semana 3-4)
-**Objetivo:** Core do negócio - sistema de agendamentos.
+## 📅 Fase 2: Agendamentos e WhatsApp (Semana 3-4)
+**Objetivo:** Core do negócio - sistema de agendamentos com fechamento via WhatsApp.
 
 ### ⚙️ Backend
-- [ ] CRUD de agendamentos
-- [ ] Validação de disponibilidade (horários conflitantes)
-- [ ] Endpoint de horários disponíveis por barbeiro/data
-- [ ] Filtros e paginação de agendamentos
-- [ ] Cancelamento e reagendamento
+- [ ] CRUD de agendamentos (Create, Read, Update, Delete).
+- [ ] Lógica de validação de disponibilidade (evitar conflitos de horário).
+- [ ] Endpoint que retorna a URL de redirecionamento para o WhatsApp do barbeiro (`wa.me`) com mensagem pré-formatada.
+- [ ] Atualização de status do agendamento (`pending_payment` -> `confirmed` -> `completed`).
 
 ### 💻 Frontend
-- [ ] Dashboard de agendamentos (calendário visual)
-- [ ] Formulário de novo agendamento (seleção de serviço, barbeiro, data/hora)
-- [ ] Lista de agendamentos com filtros (status, data, barbeiro)
-- [ ] Modal de detalhes do agendamento
-- [ ] Ações: confirmar, cancelar, reagendar
+- [ ] Calendário visual ou seletor de data/hora intuitivo.
+- [ ] Resumo do agendamento antes da confirmação.
+- [ ] Lógica de redirecionamento para o WhatsApp (`window.open(whatsapp_url, '_blank')`).
+- [ ] Dashboard de agendamentos para o barbeiro (com botão para marcar como "Pago/Confirmado").
 
 ### 🧪 Testes
 - [ ] Testes de validação de disponibilidade
@@ -56,23 +54,18 @@ Desenvolvimento em **4 fases** ao longo de **8 semanas**, do MVP ao produto comp
 
 ---
 
-## 💰 Fase 3: Financeiro e Notificações (Semana 5-6)
-**Objetivo:** Monetização e comunicação.
+## 💰 Fase 3: Financeiro Simplificado e Notificações (Semana 5-6)
+**Objetivo:** Controle de caixa e lembretes, sem gateway de pagamento complexo.
 
 ### ⚙️ Backend
-- [ ] Registro de transações financeiras
-- [ ] Cálculo automático de comissões
-- [ ] Relatórios financeiros (diário, semanal, mensal)
-- [ ] Sistema de notificações por e-mail (Nodemailer)
-- [ ] Templates de e-mail (confirmação, lembrete, cancelamento)
-- [ ] Agendamento de lembretes (cron job ou queue)
+- [ ] Relatórios de faturamento baseados nos agendamentos com status `completed` ou `confirmed`.
+- [ ] Cálculo automático de comissões com base no `total_price` e `commission_rate` do barbeiro.
+- [ ] Sistema de lembretes automáticos por e-mail (24h antes do agendamento).
 
 ### 💻 Frontend
-- [ ] Dashboard financeiro (gráficos de faturamento)
-- [ ] Relatório por barbeiro (comissões)
-- [ ] Tela de fechamento de caixa
-- [ ] Configurações de notificações
-- [ ] Histórico de notificações enviadas
+- [ ] Dashboard financeiro (gráficos de faturamento diário/mensal).
+- [ ] Tela de fechamento de caixa diário.
+- [ ] Configurações de perfil do barbeiro (incluir campo para número do WhatsApp).
 
 ### 🧪 Testes
 - [ ] Testes de cálculo de comissões

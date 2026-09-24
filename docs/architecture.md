@@ -33,7 +33,7 @@ Sistema full-stack de gestão para barbearias, construído com arquitetura limpa
 
 ```text
 BarberPro/
-├── backend/
+├── server/
 │   ├── src/
 │   │   ├── controllers/      # Lógica de roteamento HTTP
 │   │   ├── services/         # Regras de negócio
@@ -45,7 +45,7 @@ BarberPro/
 │   │   └── server.js         # Entry point
 │   ├── tests/                # Testes automatizados (Jest)
 │   └── .env
-├── frontend/
+├── client/
 │   ├── src/
 │   │   ├── components/       # Componentes reutilizáveis
 │   │   ├── pages/            # Páginas da aplicação

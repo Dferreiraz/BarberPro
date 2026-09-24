@@ -117,7 +117,7 @@ As seguintes tecnologias foram definidas para a construção do projeto:
 
 ### **Back-End**
 
-* **[TypeScript](https://www.typescriptlang.org/)**
+* **[Node.js](https://nodejs.org/)**
 * **[Express](https://expressjs.com/)**
 
 ### **Banco de Dados**

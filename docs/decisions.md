@@ -93,27 +93,28 @@ const appointmentSchema = z.object({
 
 ---
 
-## ADR-005: Notificações (E-mail vs WhatsApp)
+## ADR-005: Fluxo de Pagamento e Comunicação (WhatsApp First)
 
-### Status: Parcialmente Aceito ⚠️
+### Status: Aceito ✅
+
+### Contexto
+Integrar gateways de pagamento (Stripe, Mercado Pago) adiciona complexidade, taxas e fricção para o MVP. O público-alvo (clientes de barbearia) já está habituado a combinar pagamentos via WhatsApp.
 
 ### Decisão
-
-**E-mail** como canal principal (fase 1), **WhatsApp** como opcional (fase 2).
+O fluxo de agendamento será finalizado com um redirecionamento do Front-end para a API do WhatsApp (`wa.me`), com uma mensagem pré-preenchida contendo os dados do agendamento. O fechamento do pagamento e a confirmação final serão feitos via conversa no WhatsApp, e o status será atualizado manualmente pelo barbeiro no painel administrativo.
 
 ### Justificativa
+- ✅ Zero custo de integração de pagamento no MVP.
+- ✅ Experiência mais humana e personalizada para o cliente.
+- ✅ Reduz drasticamente a taxa de abandono no checkout.
+- ✅ O backend apenas precisa gerar a URL do `wa.me` com o número do barbeiro e os dados do agendamento.
 
-* ✅ E-mail: Gratuito (Nodemailer + Gmail/Resend), fácil de implementar
-* ⚠️ WhatsApp: Requer Twilio API (pago) ou WhatsApp Business API (complexo)
-* ✅ Fase 1: MVP funcional com e-mail
-* ✅ Fase 2: Adicionar WhatsApp como upgrade premium
-
-### Implementação Fase 1
-
-* Nodemailer + SMTP (Gmail ou Resend)
-* Templates HTML responsivos
-* Fila de envio (para não bloquear a API)
-
+### Implementação
+1. Cliente finaliza a seleção no Front-end.
+2. Backend cria o agendamento com status `pending_payment`.
+3. Backend retorna a URL: `https://wa.me/{barber_phone}?text={encoded_message}`.
+4. Front-end redireciona o usuário para essa URL.
+5. Barbeiro confirma o recebimento e atualiza o status para `confirmed` no painel.
 ---
 
 ## ADR-006: Deploy e Infraestrutura
