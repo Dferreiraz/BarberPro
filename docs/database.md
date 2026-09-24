@@ -104,12 +104,13 @@ CREATE TABLE appointments (
     service_id INTEGER NOT NULL REFERENCES services(id) ON DELETE CASCADE,
     date DATE NOT NULL,
     time TIME NOT NULL,
-    status TEXT NOT NULL DEFAULT 'pending', -- 'pending', 'confirmed', 'completed', 'cancelled'
+    status TEXT NOT NULL DEFAULT 'pending_payment', -- 'pending_payment', 'confirmed', 'completed', 'cancelled'
     total_price DECIMAL(10, 2) NOT NULL,
+    payment_method TEXT, -- Preenchido após confirmação no WhatsApp ('pix', 'cash', 'credit', 'debit')
     notes TEXT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(barber_id, date, time) -- Evita agendamentos duplicados no mesmo horário
+    UNIQUE(barber_id, date, time)
 );
 
 CREATE INDEX idx_appointments_client ON appointments(client_id);

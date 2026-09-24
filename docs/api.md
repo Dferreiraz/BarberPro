@@ -142,8 +142,9 @@ Cria um novo agendamento.
   "service_id": 3,
   "date": "2026-09-20",
   "time": "14:30",
-  "status": "pending",
-  "total_price": 45.00
+  "status": "pending_payment", 
+  "total_price": 45.00,
+  "whatsapp_redirect": "https://wa.me/5511999999999?text=Olá%20BarberPro!%20Gostaria%20de%20finalizar%20meu%20agendamento%20(ID:%2015)%20e%20definir%20a%20forma%20de%20pagamento."
 }
 
 ```

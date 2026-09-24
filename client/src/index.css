@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/* Configurações de tema para Dark Mode */
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --color-primary: #D4AF37; /* Dourado */
+  --color-background: #FFFFFF;
+  --color-surface: #F9FAFB;
+  --color-text: #111827;
+}
+
+.dark {
+  --color-background: #0A0A0A;
+  --color-surface: #1A1A1A;
+  --color-text: #F5F5F5;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: 'Inter', sans-serif;
+}
