@@ -15,16 +15,16 @@ const userRepository = {
 
     create: async (userData) => {
         const query = `
-            INSERT INTO users (name, email, password_hash, role)
-            VALUES ($1, $2, $3, $4)
-            RETURNING id, name, email, role, created_at
+            INSERT INTO users (name, email, password_hash, role, phone)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING id, name, email, role, phone, created_at
         `
-
         const { rows } = await pool.query(query, [
             userData.name,
             userData.email,
             userData.passwordHash,
-            userData.role
+            userData.role || 'client',
+            userData.phone || null
         ])
         return rows[0]
     }
