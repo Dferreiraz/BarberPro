@@ -5,7 +5,7 @@ Desenvolvimento em **4 fases** ao longo de **8 semanas**, do MVP ao produto comp
 
 ---
 
-## 🧱 Fase 1: Fundação (Semana 1-2)
+## 🧱 Fase 1: Fundação 
 **Objetivo:** Estrutura base, autenticação e CRUD principal.
 
 ### ⚙️ Backend
@@ -31,14 +31,14 @@ Desenvolvimento em **4 fases** ao longo de **8 semanas**, do MVP ao produto comp
 
 ---
 
-## 📅 Fase 2: Agendamentos e WhatsApp (Semana 3-4)
+## 📅 Fase 2: Agendamentos e WhatsApp
 **Objetivo:** Core do negócio - sistema de agendamentos com fechamento via WhatsApp.
 
 ### ⚙️ Backend
-- [ ] CRUD de agendamentos (Create, Read, Update, Delete).
-- [ ] Lógica de validação de disponibilidade (evitar conflitos de horário).
-- [ ] Endpoint que retorna a URL de redirecionamento para o WhatsApp do barbeiro (`wa.me`) com mensagem pré-formatada.
-- [ ] Atualização de status do agendamento (`pending_payment` -> `confirmed` -> `completed`).
+- [x] CRUD de agendamentos (Create, Read, Update, Delete).
+- [x] Lógica de validação de disponibilidade (evitar conflitos de horário).
+- [x] Endpoint que retorna a URL de redirecionamento para o WhatsApp do barbeiro (`wa.me`) com mensagem pré-formatada.
+- [x] Atualização de status do agendamento (`pending_payment` -> `confirmed` -> `completed`).
 
 ### 💻 Frontend
 - [ ] Calendário visual ou seletor de data/hora intuitivo.
@@ -54,7 +54,7 @@ Desenvolvimento em **4 fases** ao longo de **8 semanas**, do MVP ao produto comp
 
 ---
 
-## 💰 Fase 3: Financeiro Simplificado e Notificações (Semana 5-6)
+## 💰 Fase 3: Financeiro Simplificado e Notificações
 **Objetivo:** Controle de caixa e lembretes, sem gateway de pagamento complexo.
 
 ### ⚙️ Backend
@@ -75,7 +75,7 @@ Desenvolvimento em **4 fases** ao longo de **8 semanas**, do MVP ao produto comp
 
 ---
 
-## 🚀 Fase 4: Polimento e Deploy (Semana 7-8)
+## 🚀 Fase 4: Polimento e Deploy 
 **Objetivo:** Produção, performance e experiência do usuário.
 
 ### ⚙️ Backend
