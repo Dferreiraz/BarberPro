@@ -51,13 +51,13 @@ Durante o desenvolvimento, serão aplicados conceitos de **Front-End, Back-End, 
 
 ### 📅 Agendamentos
 
-* [ ] Agendamento de horários.
-* [ ] Seleção de barbeiro.
-* [ ] Seleção de serviços.
-* [ ] Controle de disponibilidade.
-* [ ] Gerenciamento de agendamentos.
-* [ ] Cancelamento e alteração de horários.
-* [ ] Histórico de agendamentos.
+* [x] Agendamento de horários.
+* [x] Seleção de barbeiro.
+* [x] Seleção de serviços.
+* [x] Controle de disponibilidade.
+* [x] Gerenciamento de agendamentos.
+* [x] Cancelamento e alteração de horários.
+* [x] Histórico de agendamentos.
 
 ### 👥 Clientes
 
@@ -72,7 +72,7 @@ Durante o desenvolvimento, serão aplicados conceitos de **Front-End, Back-End, 
 * [ ] Cadastro de barbeiros.
 * [ ] Gerenciamento de profissionais.
 * [ ] Definição de serviços realizados por cada profissional.
-* [ ] Controle de horários e disponibilidade.
+* [x] Controle de horários e disponibilidade.
 * [ ] Acompanhamento de comissões.
 
 ### 💰 Controle Financeiro
@@ -95,10 +95,10 @@ Durante o desenvolvimento, serão aplicados conceitos de **Front-End, Back-End, 
 ### 🎨 Interface
 
 * [ ] Design responsivo.
-* [ ] Interface moderna.
-* [ ] Dark Mode.
+* [x] Interface moderna.
+* [x] Dark Mode.
 * [ ] Dashboard administrativo.
-* [ ] Área exclusiva para clientes.
+* [x] Área exclusiva para clientes.
 * [ ] Experiência adaptada para dispositivos móveis.
 
 ---
