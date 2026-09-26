@@ -58,9 +58,9 @@ Desenvolvimento em **4 fases** ao longo de **8 semanas**, do MVP ao produto comp
 **Objetivo:** Controle de caixa e lembretes, sem gateway de pagamento complexo.
 
 ### ⚙️ Backend
-- [ ] Relatórios de faturamento baseados nos agendamentos com status `completed` ou `confirmed`.
-- [ ] Cálculo automático de comissões com base no `total_price` e `commission_rate` do barbeiro.
-- [ ] Sistema de lembretes automáticos por e-mail (24h antes do agendamento).
+- [x] Relatórios de faturamento baseados nos agendamentos com status `completed` ou `confirmed`.
+- [x] Cálculo automático de comissões com base no `total_price` e `commission_rate` do barbeiro.
+- [x] Sistema de lembretes automáticos por e-mail (24h antes do agendamento).
 
 ### 💻 Frontend
 - [ ] Dashboard financeiro (gráficos de faturamento diário/mensal).
@@ -68,7 +68,7 @@ Desenvolvimento em **4 fases** ao longo de **8 semanas**, do MVP ao produto comp
 - [ ] Configurações de perfil do barbeiro (incluir campo para número do WhatsApp).
 
 ### 🧪 Testes
-- [ ] Testes de cálculo de comissões
+- [x] Testes de cálculo de comissões
 - [ ] Testes de envio de e-mail (mock)
 
 **Entregável:** Sistema financeiro completo com notificações automáticas.

@@ -9,6 +9,7 @@ const userRoutes = require('./routes/userRoutes')
 const serviceRoutes = require('./routes/serviceRoutes')
 const appointmentRoutes = require('./routes/appointmentRoutes')
 const barberRoutes = require('./routes/barberRoutes')
+const financialRoutes = require('./routes/financialRoutes')
 
 // Importação dos Middlewares
 const errorMiddleware = require('./middlewares/errorMiddleware')
@@ -23,6 +24,7 @@ app.use('/users', userRoutes)
 app.use('/services', serviceRoutes)
 app.use('/appointments', appointmentRoutes)
 app.use('/barbers', barberRoutes)
+app.use('/financial', financialRoutes)
 
 app.get('/', (req, res) => {
     res.json({ message: 'BarberPro API está rodando!' })
