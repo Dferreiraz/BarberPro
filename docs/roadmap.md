@@ -41,14 +41,14 @@ Desenvolvimento em **4 fases** ao longo de **8 semanas**, do MVP ao produto comp
 - [x] Atualização de status do agendamento (`pending_payment` -> `confirmed` -> `completed`).
 
 ### 💻 Frontend
-- [ ] Calendário visual ou seletor de data/hora intuitivo.
-- [ ] Resumo do agendamento antes da confirmação.
-- [ ] Lógica de redirecionamento para o WhatsApp (`window.open(whatsapp_url, '_blank')`).
-- [ ] Dashboard de agendamentos para o barbeiro (com botão para marcar como "Pago/Confirmado").
+- [x] Calendário visual ou seletor de data/hora intuitivo.
+- [x] Resumo do agendamento antes da confirmação.
+- [x] Lógica de redirecionamento para o WhatsApp (`window.open(whatsapp_url, '_blank')`).
+- [x] Dashboard de agendamentos para o barbeiro (com botão para marcar como "Pago/Confirmado").
 
 ### 🧪 Testes
-- [ ] Testes de validação de disponibilidade
-- [ ] Testes de conflitos de horário
+- [x] Testes de validação de disponibilidade
+- [x] Testes de conflitos de horário
 
 **Entregável:** Sistema completo de agendamentos funcional.
 

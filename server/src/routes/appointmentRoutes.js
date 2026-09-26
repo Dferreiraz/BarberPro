@@ -9,5 +9,7 @@ router.use(authMiddleware)
 router.post('/', appointmentController.create)
 router.get('/', appointmentController.getAll)
 router.patch('/:id/status', appointmentController.updateStatus)
+router.patch('/:id/cancel', appointmentController.cancel)
+router.put('/:id', appointmentController.update)
 
 module.exports = router

@@ -53,6 +53,36 @@ const appointmentController = {
         } catch (error) {
             next(error)
         }
+    },
+
+        cancel: async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const cancelled = await appointmentService.cancelAppointment(id)
+            
+            res.status(200).json({
+                message: 'Agendamento cancelado com sucesso',
+                data: cancelled
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    update: async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const { date, time, notes } = req.body
+            
+            const updated = await appointmentService.updateAppointment(id, { date, time, notes })
+            
+            res.status(200).json({
+                message: 'Agendamento atualizado com sucesso',
+                data: updated
+            })
+        } catch (error) {
+            next(error)
+        }
     }
 }
 

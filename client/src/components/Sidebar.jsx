@@ -1,21 +1,25 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import useAuthStore from '../store/useAuthStore'
 
-const menuItems = [
-  { path: '/dashboard', label: 'Dashboard' },
-  { path: '/services', label: 'Serviços' },
-  { path: '/appointments', label: 'Agendamentos' },
-  { path: '/clients', label: 'Clientes' },
-]
-
 export default function Sidebar() {
-  const { logout } = useAuthStore()
+  const { user, logout } = useAuthStore()
   const navigate = useNavigate()
 
   const handleLogout = () => {
     logout()
     navigate('/login')
   }
+
+  // Definição dinâmica do menu baseada na role
+  const menuItems = [
+    { path: '/dashboard', label: 'Dashboard', roles: ['client', 'barber', 'admin'] },
+    { path: '/appointments', label: 'Agendamentos', roles: ['client', 'barber', 'admin'] },
+    { path: '/services', label: 'Serviços', roles: ['barber', 'admin'] },
+    { path: '/clients', label: 'Clientes', roles: ['barber', 'admin'] },
+  ]
+
+  // Filtra apenas os itens que a role do usuário atual tem permissão para ver
+  const visibleItems = menuItems.filter(item => item.roles.includes(user?.role))
 
   return (
     <aside className="w-64 bg-[var(--color-surface)] border-r border-[#2A2A2A] flex flex-col min-h-screen">
@@ -24,7 +28,7 @@ export default function Sidebar() {
       </div>
       
       <nav className="flex-1 p-4 space-y-2">
-        {menuItems.map((item) => (
+        {visibleItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}

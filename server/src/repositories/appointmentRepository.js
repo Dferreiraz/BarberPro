@@ -4,13 +4,10 @@ const appointmentRepository = {
     checkAvailability: async (barberId, date, time) => {
         const query = `
             SELECT id FROM appointments
-            WHERE barber_id = $1
-            AND date = $2
-            AND time = $3
-            AND status != 'cancelled'
+            WHERE barber_id = $1 AND date = $2 AND time = $3 AND status != 'cancelled'
         `
         const { rows } = await pool.query(query, [barberId, date, time])
-        return rows.length > 0 // Retorna true caso ocupado e false para livre
+        return rows.length > 0
     },
 
     create: async (appointmentData) => {
@@ -33,8 +30,7 @@ const appointmentRepository = {
 
     findByIdWithDetails: async (id) => {
         const query = `
-            SELECT
-                a.id, a.date, a.time, a.status, a.total_price, a.notes,
+            SELECT a.id, a.date, a.time, a.status, a.total_price, a.notes, a.payment_method,
                 u.name AS client_name, u.phone AS client_phone,
                 b_user.name AS barber_name, b_user.phone AS barber_phone,
                 s.name AS service_name
@@ -47,15 +43,12 @@ const appointmentRepository = {
         `
         const { rows } = await pool.query(query, [id])
         return rows[0]
-   },
+    },
 
-   findAll: async () => {
+    findAll: async () => {
         const query = `
-            SELECT 
-                a.id, a.date, a.time, a.status, a.total_price,
-                u.name AS client_name,
-                b_user.name AS barber_name,
-                s.name AS service_name
+            SELECT a.id, a.date, a.time, a.status, a.total_price, a.payment_method,
+                u.name AS client_name, b_user.name AS barber_name, s.name AS service_name
             FROM appointments a
             JOIN users u ON a.client_id = u.id
             JOIN barbers b ON a.barber_id = b.id
@@ -65,9 +58,9 @@ const appointmentRepository = {
         `
         const { rows } = await pool.query(query)
         return rows
-   },
+    },
 
-   updateStatus: async (id, status, paymentMethod = null) => {
+    updateStatus: async (id, status, paymentMethod = null) => {
         let query = 'UPDATE appointments SET status = $1, updated_at = CURRENT_TIMESTAMP'
         let params = [status, id]
 
@@ -77,8 +70,34 @@ const appointmentRepository = {
         }
 
         query += ' WHERE id = $' + params.length + ' RETURNING *'
-        
         const { rows } = await pool.query(query, params)
+        return rows[0]
+    },
+
+    cancel: async (id) => {
+        const query = `
+            UPDATE appointments 
+            SET status = 'cancelled', updated_at = CURRENT_TIMESTAMP
+            WHERE id = $1 AND status NOT IN ('completed', 'cancelled')
+            RETURNING *
+        `
+        const { rows } = await pool.query(query, [id])
+        return rows[0]
+    },
+
+    update: async (id, appointmentData) => {
+        const query = `
+            UPDATE appointments 
+            SET date = $1, time = $2, notes = $3, updated_at = CURRENT_TIMESTAMP
+            WHERE id = $4 AND status NOT IN ('completed', 'cancelled')
+            RETURNING *
+        `
+        const { rows } = await pool.query(query, [
+            appointmentData.date,
+            appointmentData.time,
+            appointmentData.notes || null,
+            id
+        ])
         return rows[0]
     }
 }
