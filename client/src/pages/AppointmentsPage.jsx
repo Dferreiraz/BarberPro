@@ -34,16 +34,13 @@ export default function AppointmentsPage() {
                     api.get('/barbers')
                 ])
                 
-                // ✅ Filtra os agendamentos: Cliente vê só os dele, Barbeiro vê todos
-                let filteredAppointments = appointmentsData
+                let filtered = appointmentsData.filter(apt => apt.status !== 'cancelled')
+
                 if (user?.role === 'client') {
-                    filteredAppointments = appointmentsData.filter(apt => apt.client_id === user.id)
+                    filtered = filtered.filter(apt => apt.client_id === user.id)
                 }
-                
-                // Ordena por data (mais próximos primeiro)
-                filteredAppointments.sort((a, b) => new Date(a.date) - new Date(b.date))
-                
-                setAppointments(filteredAppointments)
+
+                setAppointments(filtered)
                 setServices(servicesData.data)
                 setBarbers(barbersData.data)
             } catch (error) {
@@ -79,14 +76,14 @@ export default function AppointmentsPage() {
             }
 
             const updatedList = await appointmentService.getAll()
-            
+
             // Reaplica o filtro após a atualização
             let finalList = updatedList
             if (user?.role === 'client') {
                 finalList = updatedList.filter(apt => apt.client_id === user.id)
             }
             finalList.sort((a, b) => new Date(a.date) - new Date(b.date))
-            
+
             setAppointments(finalList)
 
             setFormData({ barberId: '', serviceId: '', date: '', time: '', totalPrice: '', notes: '' })
@@ -97,10 +94,10 @@ export default function AppointmentsPage() {
         }
     }
 
-        const handleEdit = (appointment) => {
+    const handleEdit = (appointment) => {
         try {
             setEditingAppointment(appointment)
-            
+
             // 1. Tratamento seguro da Data (garante formato YYYY-MM-DD)
             let dateStr = '';
             if (typeof appointment.date === 'string') {
@@ -126,14 +123,14 @@ export default function AppointmentsPage() {
                 totalPrice: String(appointment.total_price),
                 notes: appointment.notes || ''
             })
-            
+
             // 4. Abre o formulário e limpa URL do WhatsApp se houver
             setShowForm(true)
             setWhatsappUrl(null)
-            
+
             // 5. Rola a tela suavemente para o topo para o usuário ver o formulário
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
+
         } catch (error) {
             console.error("Erro ao preparar edição:", error);
             alert("Erro ao carregar dados para edição. Verifique o console do navegador (F12).");
@@ -146,13 +143,13 @@ export default function AppointmentsPage() {
         try {
             await appointmentService.cancel(id)
             const updatedList = await appointmentService.getAll()
-            
+
             let finalList = updatedList
             if (user?.role === 'client') {
                 finalList = updatedList.filter(apt => apt.client_id === user.id)
             }
             finalList.sort((a, b) => new Date(a.date) - new Date(b.date))
-            
+
             setAppointments(finalList)
         } catch (error) {
             alert(error.response?.data?.message || 'Erro ao cancelar agendamento')
@@ -166,13 +163,13 @@ export default function AppointmentsPage() {
         try {
             await appointmentService.updateStatus(id, 'confirmed', paymentMethod)
             const updatedList = await appointmentService.getAll()
-            
+
             let finalList = updatedList
             if (user?.role === 'client') {
                 finalList = updatedList.filter(apt => apt.client_id === user.id)
             }
             finalList.sort((a, b) => new Date(a.date) - new Date(b.date))
-            
+
             setAppointments(finalList)
         } catch (error) {
             alert(error.response?.data?.message || 'Erro ao atualizar status')
@@ -212,7 +209,7 @@ export default function AppointmentsPage() {
         <div>
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-[var(--color-primary)]">Agendamentos</h2>
-                <button 
+                <button
                     onClick={() => { handleCancelForm(); setShowForm(!showForm) }}
                     className="px-4 py-2 bg-[var(--color-primary)] text-black font-bold rounded hover:opacity-90 transition"
                 >
@@ -223,9 +220,9 @@ export default function AppointmentsPage() {
             {whatsappUrl && (
                 <div className="bg-green-900/30 border border-green-500 p-4 rounded-lg mb-6">
                     <p className="text-green-400 font-semibold mb-2">Agendamento criado com sucesso!</p>
-                    <a 
-                        href={whatsappUrl} 
-                        target="_blank" 
+                    <a
+                        href={whatsappUrl}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition font-bold"
                     >
@@ -244,9 +241,9 @@ export default function AppointmentsPage() {
                             <>
                                 <div>
                                     <label className="block text-sm mb-1 text-[var(--color-text)]">Barbeiro</label>
-                                    <select 
+                                    <select
                                         value={formData.barberId}
-                                        onChange={(e) => setFormData({...formData, barberId: e.target.value})}
+                                        onChange={(e) => setFormData({ ...formData, barberId: e.target.value })}
                                         required
                                         className="w-full p-2 rounded bg-[var(--color-background)] border border-[#2A2A2A] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
                                     >
@@ -259,12 +256,12 @@ export default function AppointmentsPage() {
 
                                 <div>
                                     <label className="block text-sm mb-1 text-[var(--color-text)]">Serviço</label>
-                                    <select 
+                                    <select
                                         value={formData.serviceId}
                                         onChange={(e) => {
                                             const selected = services.find(s => s.id === parseInt(e.target.value))
                                             setFormData({
-                                                ...formData, 
+                                                ...formData,
                                                 serviceId: e.target.value,
                                                 totalPrice: selected ? selected.price : ''
                                             })
@@ -283,10 +280,10 @@ export default function AppointmentsPage() {
 
                         <div>
                             <label className="block text-sm mb-1 text-[var(--color-text)]">Data</label>
-                            <input 
-                                type="date" 
+                            <input
+                                type="date"
                                 value={formData.date}
-                                onChange={(e) => setFormData({...formData, date: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                                 required
                                 className="w-full p-2 rounded bg-[var(--color-background)] border border-[#2A2A2A] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
                             />
@@ -294,10 +291,10 @@ export default function AppointmentsPage() {
 
                         <div>
                             <label className="block text-sm mb-1 text-[var(--color-text)]">Horário</label>
-                            <input 
-                                type="time" 
+                            <input
+                                type="time"
                                 value={formData.time}
-                                onChange={(e) => setFormData({...formData, time: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, time: e.target.value })}
                                 required
                                 className="w-full p-2 rounded bg-[var(--color-background)] border border-[#2A2A2A] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
                             />
@@ -306,11 +303,11 @@ export default function AppointmentsPage() {
                         {!editingAppointment && (
                             <div>
                                 <label className="block text-sm mb-1 text-[var(--color-text)]">Valor (R$)</label>
-                                <input 
-                                    type="number" 
+                                <input
+                                    type="number"
                                     step="0.01"
                                     value={formData.totalPrice}
-                                    onChange={(e) => setFormData({...formData, totalPrice: e.target.value})}
+                                    onChange={(e) => setFormData({ ...formData, totalPrice: e.target.value })}
                                     required
                                     className="w-full p-2 rounded bg-[var(--color-background)] border border-[#2A2A2A] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
                                 />
@@ -319,17 +316,17 @@ export default function AppointmentsPage() {
 
                         <div>
                             <label className="block text-sm mb-1 text-[var(--color-text)]">Observações</label>
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 placeholder="Opcional"
                                 value={formData.notes}
-                                onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                 className="w-full p-2 rounded bg-[var(--color-background)] border border-[#2A2A2A] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
                             />
                         </div>
 
                         <div className="md:col-span-2">
-                            <button 
+                            <button
                                 type="submit"
                                 className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition font-semibold"
                             >
@@ -352,11 +349,11 @@ export default function AppointmentsPage() {
                                     </span>
                                 </div>
                                 <p className="text-gray-400 text-sm">
-                                    Cliente: <span className="text-[var(--color-text)]">{apt.client_name}</span> | 
+                                    Cliente: <span className="text-[var(--color-text)]">{apt.client_name}</span> |
                                     Barbeiro: <span className="text-[var(--color-text)]">{apt.barber_name}</span>
                                 </p>
                                 <p className="text-gray-400 text-sm">
-                                    {new Date(apt.date).toLocaleDateString('pt-BR')} às {apt.time} | 
+                                    {new Date(apt.date).toLocaleDateString('pt-BR')} às {apt.time} |
                                     <span className="text-[var(--color-primary)] font-bold"> R$ {parseFloat(apt.total_price).toFixed(2)}</span>
                                     {apt.payment_method && <span className="ml-2 text-green-400">({apt.payment_method.toUpperCase()})</span>}
                                 </p>
@@ -370,13 +367,13 @@ export default function AppointmentsPage() {
                                 {/* CLIENTE: pode editar e cancelar apenas seus próprios agendamentos pendentes */}
                                 {user?.role === 'client' && apt.status === 'pending_payment' && (
                                     <>
-                                        <button 
+                                        <button
                                             onClick={() => handleEdit(apt)}
                                             className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition font-semibold"
                                         >
                                             Editar
                                         </button>
-                                        <button 
+                                        <button
                                             onClick={() => handleCancel(apt.id)}
                                             className="px-3 py-1.5 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition font-semibold"
                                         >
@@ -388,21 +385,21 @@ export default function AppointmentsPage() {
                                 {/* BARBEIRO/ADMIN: pode editar e cancelar agendamentos pendentes ou confirmados */}
                                 {isBarberOrAdmin && (apt.status === 'pending_payment' || apt.status === 'confirmed') && (
                                     <>
-                                        <button 
+                                        <button
                                             onClick={() => handleEdit(apt)}
                                             className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition font-semibold"
                                         >
                                             Editar
                                         </button>
                                         {apt.status === 'pending_payment' && (
-                                            <button 
+                                            <button
                                                 onClick={() => handleConfirmPayment(apt.id)}
                                                 className="px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition font-semibold"
                                             >
                                                 Confirmar
                                             </button>
                                         )}
-                                        <button 
+                                        <button
                                             onClick={() => handleCancel(apt.id)}
                                             className="px-3 py-1.5 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition font-semibold"
                                         >

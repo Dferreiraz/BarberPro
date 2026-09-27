@@ -10,11 +10,12 @@ export default function Sidebar() {
     navigate('/login')
   }
 
-  // Definição dinâmica do menu baseada na role
   const menuItems = [
     { path: '/dashboard', label: 'Dashboard', roles: ['client', 'barber', 'admin'] },
     { path: '/appointments', label: 'Agendamentos', roles: ['client', 'barber', 'admin'] },
     { path: '/services', label: 'Serviços', roles: ['barber', 'admin'] },
+    { path: '/financial', label: 'Financeiro', roles: ['barber', 'admin'] },
+    { path: '/profile', label: 'Meu Perfil', roles: ['barber', 'admin'] },   
     { path: '/clients', label: 'Clientes', roles: ['barber', 'admin'] },
   ]
 
@@ -26,17 +27,16 @@ export default function Sidebar() {
       <div className="p-6 border-b border-[#2A2A2A]">
         <h1 className="text-2xl font-bold text-[var(--color-primary)]">BarberPro</h1>
       </div>
-      
+
       <nav className="flex-1 p-4 space-y-2">
         {visibleItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
-            className={({ isActive }) => 
-              `block px-4 py-3 rounded-lg transition-colors ${
-                isActive 
-                  ? 'bg-[var(--color-primary)] text-black font-bold' 
-                  : 'text-[var(--color-text)] hover:bg-[#2A2A2A]'
+            className={({ isActive }) =>
+              `block px-4 py-3 rounded-lg transition-colors ${isActive
+                ? 'bg-[var(--color-primary)] text-black font-bold'
+                : 'text-[var(--color-text)] hover:bg-[#2A2A2A]'
               }`
             }
           >
@@ -46,7 +46,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="p-4 border-t border-[#2A2A2A]">
-        <button 
+        <button
           onClick={handleLogout}
           className="w-full p-2 bg-red-600 text-white rounded hover:bg-red-700 transition font-semibold"
         >
