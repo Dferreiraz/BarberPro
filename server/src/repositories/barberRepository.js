@@ -15,7 +15,7 @@ const barberRepository = {
         return rows
     },
 
-        // Busca o perfil do barbeiro baseado no ID do usuário logado
+    // Busca o perfil do barbeiro baseado no ID do usuário logado
     findByUserId: async (userId) => {
         const query = `
             SELECT 
@@ -48,6 +48,22 @@ const barberRepository = {
             RETURNING *
         `
         const { rows } = await pool.query(queryUser, [userData.phone, userId])
+        return rows[0]
+    },
+
+    // ✅ NOVO MÉTODO ADICIONADO: Cria o perfil do barbeiro automaticamente no registro
+    create: async (barberData) => {
+        const query = `
+            INSERT INTO barbers (user_id, bio, commission_rate, is_available)
+            VALUES ($1, $2, $3, $4)
+            RETURNING id, user_id, bio, commission_rate, is_available, created_at
+        `
+        const { rows } = await pool.query(query, [
+            barberData.user_id,
+            barberData.bio || 'Barbeiro profissional',
+            barberData.commission_rate || 50.00,
+            barberData.is_available !== undefined ? barberData.is_available : true
+        ])
         return rows[0]
     }
 }

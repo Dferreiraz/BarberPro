@@ -79,29 +79,29 @@ Desenvolvimento em **4 fases**, do MVP ao produto completo.
 **Objetivo:** Produção, performance e experiência do usuário.
 
 ### ⚙️ Backend
-- [ ] Otimização de queries (índices, explain analyze)
-- [ ] Rate limiting em endpoints críticos
-- [ ] Logging estruturado (Winston)
-- [ ] Tratamento robusto de erros
-- [ ] Documentação da API (Swagger/OpenAPI)
+- [x] Otimização de queries (índices, explain analyze)
+- [x] Rate limiting em endpoints críticos
+- [x] Logging estruturado (Winston)
+- [x] Tratamento robusto de erros
+- [x] Documentação da API (Swagger/OpenAPI)
 
 ### 💻 Frontend
-- [ ] Animações e transições suaves
-- [ ] Loading states e skeleton screens
-- [ ] Validação de formulários em tempo real
-- [ ] Responsividade mobile completa
-- [ ] PWA (Progressive Web App) - opcional
+- [x] Animações e transições suaves
+- [x] Loading states e skeleton screens
+- [x] Validação de formulários em tempo real
+- [x] Responsividade mobile completa
+- [x] PWA (Progressive Web App) - opcional
 
 ### 🚀 Deploy
-- [ ] Configurar Render (backend + frontend)
+- [ ] Configurar Render + Vercel (backend + frontend)
 - [ ] Configurar variáveis de ambiente em produção
 - [ ] Testes de carga básicos
 - [ ] Monitoramento (logs, uptime)
 
 ### 📄 Documentação
-- [ ] README completo
-- [ ] Guia de contribuição
-- [ ] Documentação de API pública
+- [x] README completo
+- [x] Guia de contribuição
+- [x] Documentação de API pública
 
 **Entregável:** Produto em produção, pronto para uso real.
 

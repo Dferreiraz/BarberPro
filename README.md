@@ -61,45 +61,37 @@ Durante o desenvolvimento, serão aplicados conceitos de **Front-End, Back-End, 
 
 ### 👥 Clientes
 
-* [ ] Cadastro de clientes.
+* [x] Cadastro de clientes.
 * [ ] Edição e gerenciamento de clientes.
-* [ ] Histórico de serviços.
-* [ ] Histórico de agendamentos.
-* [ ] Preferências e informações adicionais.
+* [x] Histórico de serviços.
+* [x] Histórico de agendamentos.
+* [x] Preferências e informações adicionais.
 
 ### 💈 Profissionais
 
-* [ ] Cadastro de barbeiros.
-* [ ] Gerenciamento de profissionais.
-* [ ] Definição de serviços realizados por cada profissional.
+* [x] Cadastro de barbeiros.
+* [x] Gerenciamento de profissionais.
+* [x] Definição de serviços realizados por cada profissional.
 * [x] Controle de horários e disponibilidade.
-* [ ] Acompanhamento de comissões.
+* [x] Acompanhamento de comissões.
 
 ### 💰 Controle Financeiro
 
-* [ ] Registro de entradas.
-* [ ] Controle de comissões.
-* [ ] Acompanhamento do faturamento.
-* [ ] Relatórios financeiros.
-* [ ] Fechamento de caixa.
-* [ ] Histórico financeiro.
-
-### 🔔 Notificações
-
-* [ ] Lembretes de agendamento.
-* [ ] Notificações para clientes.
-* [ ] Notificações para profissionais.
-* [ ] Integração com e-mail.
-* [ ] Integração com WhatsApp.
+* [x] Registro de entradas.
+* [x] Controle de comissões.
+* [x] Acompanhamento do faturamento.
+* [x] Relatórios financeiros.
+* [x] Fechamento de caixa.
+* [x] Histórico financeiro.
 
 ### 🎨 Interface
 
-* [ ] Design responsivo.
+* [x] Design responsivo.
 * [x] Interface moderna.
 * [x] Dark Mode.
-* [ ] Dashboard administrativo.
+* [x] Dashboard administrativo.
 * [x] Área exclusiva para clientes.
-* [ ] Experiência adaptada para dispositivos móveis.
+* [x] Experiência adaptada para dispositivos móveis.
 
 ---
 
