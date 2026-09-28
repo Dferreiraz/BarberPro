@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import useAuthStore from '../store/useAuthStore'
 import appointmentService from '../services/appointmentService'
+import MonthlyCalendar from '../components/MonthlyCalendar' 
 
 export default function Dashboard() {
   const { user } = useAuthStore()
@@ -12,10 +13,17 @@ export default function Dashboard() {
       try {
         const data = await appointmentService.getAll()
         
-        // Se for cliente, filtra APENAS os agendamentos dele
-        const userAppointments = user?.role === 'client'
-          ? data.filter(apt => apt.client_id === user.id)
-          : data // Barbeiro vê todos (por enquanto)
+        let userAppointments = []
+
+        if (user?.role === 'client') {
+          // Cliente vê APENAS os seus agendamentos, e NÃO vê os cancelados
+          userAppointments = data.filter(apt => 
+            apt.client_id === user.id && apt.status !== 'cancelled'
+          )
+        } else {
+          // Barbeiro vê todos, mas removemos os cancelados para manter o dashboard limpo
+          userAppointments = data.filter(apt => apt.status !== 'cancelled')
+        }
 
         // Ordenar por data (mais próximos primeiro)
         userAppointments.sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -33,6 +41,11 @@ export default function Dashboard() {
 
   const isClient = user?.role === 'client'
 
+  // Cálculos para as estatísticas do Barbeiro (ignorando cancelados)
+  const todayStr = new Date().toISOString().split('T')[0]
+  const todayAppointments = appointments.filter(a => a.date.startsWith(todayStr))
+  const totalActiveAppointments = appointments.length
+
   return (
     <div className="space-y-6">
       {/* Cabeçalho de Boas-vindas */}
@@ -47,7 +60,9 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* VISÃO DO CLIENTE: Agenda Visual */}
+      {/* ========================================== */}
+      {/* VISÃO DO CLIENTE: Agenda Visual            */}
+      {/* ========================================== */}
       {isClient && (
         <div className="bg-[var(--color-surface)] p-6 rounded-lg border border-[#2A2A2A]">
           <h3 className="text-xl font-bold text-[var(--color-text)] mb-4 flex items-center gap-2">
@@ -56,7 +71,7 @@ export default function Dashboard() {
 
           {appointments.length === 0 ? (
             <div className="text-center py-8 text-gray-500 border border-dashed border-[#2A2A2A] rounded-lg">
-              <p>Você não possui agendamentos no momento.</p>
+              <p>Você não possui agendamentos ativos no momento.</p>
               <p className="text-sm mt-2">Vá até a aba "Agendamentos" para marcar um novo horário.</p>
             </div>
           ) : (
@@ -105,29 +120,36 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* VISÃO DO BARBEIRO: Cards de Estatísticas (Placeholder para Fase 3) */}
+      {/* ========================================== */}
+      {/* VISÃO DO BARBEIRO: Estatísticas + Calendário */}
+      {/* ========================================== */}
       {!isClient && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-[var(--color-surface)] p-6 rounded-lg border border-[#2A2A2A]">
-            <h3 className="text-gray-400 text-sm mb-2">Faturamento do Mês</h3>
-            <p className="text-3xl font-bold text-[var(--color-text)]">R$ 0,00</p>
-          </div>
-          
-          <div className="bg-[var(--color-surface)] p-6 rounded-lg border border-[#2A2A2A]">
-            <h3 className="text-gray-400 text-sm mb-2">Agendamentos Hoje</h3>
-            <p className="text-3xl font-bold text-[var(--color-text)]">
-              {appointments.filter(a => {
-                const today = new Date().toISOString().split('T')[0]
-                return a.date.startsWith(today) && a.status !== 'cancelled'
-              }).length}
-            </p>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-[var(--color-surface)] p-6 rounded-lg border border-[#2A2A2A]">
+              <h3 className="text-gray-400 text-sm mb-2">Faturamento do Mês</h3>
+              {/* Placeholder: Será alimentado pela API financeira na Fase 3 */}
+              <p className="text-3xl font-bold text-[var(--color-text)]">R$ 0,00</p>
+            </div>
+            
+            <div className="bg-[var(--color-surface)] p-6 rounded-lg border border-[#2A2A2A]">
+              <h3 className="text-gray-400 text-sm mb-2">Agendamentos Hoje</h3>
+              <p className="text-3xl font-bold text-[var(--color-text)]">
+                {todayAppointments.length}
+              </p>
+            </div>
+
+            <div className="bg-[var(--color-surface)] p-6 rounded-lg border border-[#2A2A2A]">
+              <h3 className="text-gray-400 text-sm mb-2">Total de Agendamentos Ativos</h3>
+              <p className="text-3xl font-bold text-[var(--color-primary)]">
+                {totalActiveAppointments}
+              </p>
+            </div>
           </div>
 
-          <div className="bg-[var(--color-surface)] p-6 rounded-lg border border-[#2A2A2A]">
-            <h3 className="text-gray-400 text-sm mb-2">Total de Agendamentos</h3>
-            <p className="text-3xl font-bold text-[var(--color-primary)]">{appointments.length}</p>
-          </div>
-        </div>
+          {/* Calendário Mensal*/}
+          <MonthlyCalendar />
+        </>
       )}
     </div>
   )
