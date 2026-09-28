@@ -1,21 +1,18 @@
-const authService = require('../services/authService')
-const authController = require('../services/authService')
+const userService = require('../services/userService')
 
 const userController = {
     getAll: async (req, res, next) => {
         try {
-            const users = await authService.getAllUsers()
-
+            const users = await userService.getAllUsers()
             res.status(200).json(users)
         } catch (error) {
             next(error)
         }
     },
 
-        getBarbers: async (req, res, next) => {
+    getBarbers: async (req, res, next) => {
         try {
-            const users = await authService.getAllUsers()
-            const barbers = users.filter(user => user.role === 'barber')
+            const barbers = await userService.getBarbers()
             res.status(200).json(barbers)
         } catch (error) {
             next(error)
@@ -24,9 +21,18 @@ const userController = {
 
     getClients: async (req, res, next) => {
         try {
-            const users = await authService.getAllUsers()
-            const clients = users.filter(user => user.role === 'client')
+            const clients = await userService.getClients()
             res.status(200).json(clients)
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    delete: async (req, res, next) => {
+        try {
+            const { id } = req.params
+            await userService.deleteUser(id, req.userId)
+            res.status(200).json({ message: 'Usuário excluído com sucesso' })
         } catch (error) {
             next(error)
         }

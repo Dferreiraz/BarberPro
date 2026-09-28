@@ -9,6 +9,7 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
     const [message, setMessage] = useState({ type: '', text: '' })
+    const [errors, setErrors] = useState({ name: '', phone: '', commission_rate: '' })
 
     const [formData, setFormData] = useState({
         name: '',
@@ -19,7 +20,6 @@ export default function ProfilePage() {
     })
 
     useEffect(() => {
-        // Segurança: apenas barbeiros (ou admins) podem acessar
         if (user?.role !== 'barber' && user?.role !== 'admin') {
             navigate('/dashboard')
             return
@@ -45,15 +45,59 @@ export default function ProfilePage() {
         loadProfile()
     }, [user, navigate])
 
+    // Função genérica de validação
+    const validateField = (name, value) => {
+        let error = ''
+        if (name === 'name' && value.length < 3) {
+            error = 'O nome deve ter pelo menos 3 caracteres'
+        } else if (name === 'phone') {
+            const numbersOnly = value.replace(/\D/g, '')
+            if (numbersOnly.length < 10) {
+                error = 'Telefone inválido (mínimo 10 dígitos)'
+            }
+        } else if (name === 'commission_rate') {
+            const rate = parseFloat(value)
+            if (isNaN(rate) || rate < 0 || rate > 100) {
+                error = 'A comissão deve estar entre 0 e 100'
+            }
+        }
+        setErrors(prev => ({ ...prev, [name]: error }))
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        
+        // Formatação automática para telefone (apenas números)
+        if (name === 'phone') {
+            const numbersOnly = value.replace(/\D/g, '')
+            setFormData(prev => ({ ...prev, [name]: numbersOnly }))
+            validateField(name, numbersOnly)
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }))
+            validateField(name, value)
+        }
+        
+        // Limpa mensagem de sucesso/erro geral ao editar
+        if (message.text) setMessage({ type: '', text: '' })
+    }
+
+    const isFormValid = 
+        formData.name.length >= 3 &&
+        formData.phone.replace(/\D/g, '').length >= 10 &&
+        parseFloat(formData.commission_rate) >= 0 &&
+        parseFloat(formData.commission_rate) <= 100 &&
+        !errors.name && !errors.phone && !errors.commission_rate
+
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (!isFormValid) return
+        
         setSaving(true)
         setMessage({ type: '', text: '' })
 
         try {
-            const response = await barberService.updateProfile(formData)
+            await barberService.updateProfile(formData)
             
-            // Atualiza o Zustand com os novos dados (nome e phone) para refletir no Header
             const updatedUser = { ...user, name: formData.name, phone: formData.phone }
             const token = localStorage.getItem('@BarberPro:token')
             login(updatedUser, token)
@@ -80,18 +124,19 @@ export default function ProfilePage() {
             )}
 
             <form onSubmit={handleSubmit} className="bg-[var(--color-surface)] p-6 rounded-lg border border-[#2A2A2A] space-y-6">
-                
-                {/* Dados do Usuário */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label className="block text-sm mb-1 text-[var(--color-text)]">Nome Completo</label>
                         <input 
+                            name="name"
                             type="text" 
                             value={formData.name}
-                            onChange={(e) => setFormData({...formData, name: e.target.value})}
-                            required
-                            className="w-full p-2 rounded bg-[var(--color-background)] border border-[#2A2A2A] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
+                            onChange={handleChange}
+                            className={`w-full p-2 rounded bg-[var(--color-background)] border text-[var(--color-text)] focus:outline-none focus:ring-1 transition ${
+                                errors.name ? 'border-red-500 focus:ring-red-500' : 'border-[#2A2A2A] focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]'
+                            }`}
                         />
+                        {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
                     </div>
                     <div>
                         <label className="block text-sm mb-1 text-[var(--color-text)]">E-mail</label>
@@ -110,25 +155,28 @@ export default function ProfilePage() {
                         Número do WhatsApp <span className="text-red-400">*</span>
                     </label>
                     <input 
+                        name="phone"
                         type="text" 
                         placeholder="Ex: 5511999998888"
                         value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        required
-                        className="w-full p-2 rounded bg-[var(--color-background)] border border-[#2A2A2A] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
+                        onChange={handleChange}
+                        className={`w-full p-2 rounded bg-[var(--color-background)] border text-[var(--color-text)] focus:outline-none focus:ring-1 transition ${
+                            errors.phone ? 'border-red-500 focus:ring-red-500' : 'border-[#2A2A2A] focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]'
+                        }`}
                     />
+                    {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
                     <p className="text-xs text-gray-500 mt-1">Necessário para gerar o link de agendamento no WhatsApp.</p>
                 </div>
 
                 <hr className="border-[#2A2A2A]" />
 
-                {/* Dados do Barbeiro */}
                 <div>
                     <label className="block text-sm mb-1 text-[var(--color-text)]">Biografia / Descrição</label>
                     <textarea 
+                        name="bio"
                         rows="3"
                         value={formData.bio}
-                        onChange={(e) => setFormData({...formData, bio: e.target.value})}
+                        onChange={handleChange}
                         placeholder="Ex: Especialista em degradê e barba com 5 anos de experiência."
                         className="w-full p-2 rounded bg-[var(--color-background)] border border-[#2A2A2A] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
                     />
@@ -137,22 +185,25 @@ export default function ProfilePage() {
                 <div>
                     <label className="block text-sm mb-1 text-[var(--color-text)]">Taxa de Comissão (%)</label>
                     <input 
+                        name="commission_rate"
                         type="number" 
                         min="0" 
                         max="100" 
                         step="0.01"
                         value={formData.commission_rate}
-                        onChange={(e) => setFormData({...formData, commission_rate: e.target.value})}
-                        required
-                        className="w-full md:w-1/3 p-2 rounded bg-[var(--color-background)] border border-[#2A2A2A] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
+                        onChange={handleChange}
+                        className={`w-full md:w-1/3 p-2 rounded bg-[var(--color-background)] border text-[var(--color-text)] focus:outline-none focus:ring-1 transition ${
+                            errors.commission_rate ? 'border-red-500 focus:ring-red-500' : 'border-[#2A2A2A] focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]'
+                        }`}
                     />
+                    {errors.commission_rate && <p className="text-red-400 text-xs mt-1">{errors.commission_rate}</p>}
                 </div>
 
                 <div className="pt-4">
                     <button 
                         type="submit"
-                        disabled={saving}
-                        className="w-full md:w-auto px-6 py-2 bg-[var(--color-primary)] text-black font-bold rounded hover:opacity-90 transition disabled:opacity-50"
+                        disabled={!isFormValid || saving}
+                        className="w-full md:w-auto px-6 py-2 bg-[var(--color-primary)] text-black font-bold rounded hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {saving ? 'Salvando...' : 'Salvar Alterações'}
                     </button>
