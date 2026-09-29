@@ -96,7 +96,7 @@ Desenvolvimento em **4 fases**, do MVP ao produto completo.
 - [ ] Configurar Render + Vercel (backend + frontend)
 - [ ] Configurar variáveis de ambiente em produção
 - [ ] Testes de carga básicos
-- [ ] Monitoramento (logs, uptime)
+- [ ] Monitoramento (logs, uptime) 
 
 ### 📄 Documentação
 - [x] README completo
