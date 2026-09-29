@@ -118,9 +118,7 @@ As seguintes tecnologias foram definidas para a construção do projeto:
 
 ### **Infraestrutura**
 
-* **[Docker](https://www.docker.com/)**
-* **[Docker Compose](https://docs.docker.com/compose/)**
-* **[Render](https://render.com/)**
+* 
 
 ---
 
