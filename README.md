@@ -116,9 +116,7 @@ As seguintes tecnologias foram definidas para a construção do projeto:
 
 * **[PostgreSQL](https://www.postgresql.org/)**
 
-### **Infraestrutura**
-
-* 
+<!-- ### **Infraestrutura** -->
 
 ---
 
