@@ -1,0 +1,1 @@
+JWT_SECRET=barberpro_dev_secret_2026_9f8a7c6d5e4b3a2
